@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Cookie Clicker</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      background-color: #f3f3f3;
+      padding-top: 50px;
+    }
+
+    #cookie {
+      width: 200px;
+      height: 200px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/7/7b/Chocolate_Chip_Cookie.png') no-repeat center center;
+      background-size: cover;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      transition: transform 0.1s;
+    }
+
+    #cookie:active {
+      transform: scale(0.95);
+    }
+
+    #counter {
+      font-size: 2em;
+      margin: 20px;
+    }
+
+    #upgrade {
+      margin-top: 30px;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: #ffcc00;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #upgrade:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    small {
+      display: block;
+      margin-top: 5px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🍪 Cookie Clicker</h1>
+  <div id="counter">Cookies: 0</div>
+  <button id="cookie" title="Click me!"></button>
+
+  <button id="upgrade" disabled>Buy Auto-Clicker (50 cookies)</button>
+  <small id="autoClickerStatus">Auto-clickers: 0</small>
+
+  <script>
+    let cookies = 0;
+    let autoClickers = 0;
+
+    const counter = document.getElementById('counter');
+    const cookieBtn = document.getElementById('cookie');
+    const upgradeBtn = document.getElementById('upgrade');
+    const autoClickerStatus = document.getElementById('autoClickerStatus');
+
+    function updateDisplay() {
+      counter.textContent = `Cookies: ${cookies}`;
+      upgradeBtn.disabled = cookies < 50;
+      autoClickerStatus.textContent = `Auto-clickers: ${autoClickers}`;
+    }
+
+    cookieBtn.addEventListener('click', () => {
+      cookies++;
+      updateDisplay();
+    });
+
+    upgradeBtn.addEventListener('click', () => {
+      if (cookies >= 50) {
+        cookies -= 50;
+        autoClickers++;
+        updateDisplay();
+
+        // Add auto-clicker effect
+        if (autoClickers === 1) {
+          setInterval(() => {
+            cookies += autoClickers;
+            updateDisplay();
+          }, 1000);
+        }
+      }
+    });
+
+    updateDisplay();
+  </script>
+
+</body>
+</html>
